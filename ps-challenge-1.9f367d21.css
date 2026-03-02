@@ -171,6 +171,71 @@ html {
 .main-page {
   height: calc(100% - 48px);
   margin-top: 48px;
+  position: relative;
   overflow: auto;
+}
+
+.keyboard-help {
+  z-index: 100;
+  color: #ccc;
+  pointer-events: auto;
+  font-size: 12px;
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+}
+
+.keyboard-help-toggle {
+  color: #ccc;
+  cursor: pointer;
+  background: #1e1e1ed9;
+  border: 1px solid #ffffff1a;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.keyboard-help-toggle:hover {
+  color: #fff;
+  background: #323232e6;
+}
+
+.keyboard-help-list {
+  backdrop-filter: blur(8px);
+  background: #1e1e1ed9;
+  border: 1px solid #ffffff1a;
+  border-radius: 6px;
+  margin: 0;
+  padding: 8px 12px;
+  list-style: none;
+}
+
+.keyboard-help-list li {
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+  display: flex;
+}
+
+.keyboard-help-keys {
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 120px;
+  display: flex;
+}
+
+.keyboard-help-keys kbd {
+  white-space: nowrap;
+  background: #ffffff1a;
+  border: 1px solid #fff3;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.keyboard-help-desc {
+  opacity: .8;
 }
 /*# sourceMappingURL=ps-challenge-1.9f367d21.css.map */

@@ -725,8 +725,8 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _client = require("react-dom/client");
 var _react = require("react");
 var _app = require("./App");
-let container = document.getElementById("app");
-let root = (0, _client.createRoot)(container);
+const container = document.getElementById('app');
+const root = (0, _client.createRoot)(container);
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _react.StrictMode), {
     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _app.App), {}, void 0, false, {
         fileName: "src/index.tsx",
@@ -25044,35 +25044,45 @@ $parcel$ReactRefreshHelpers$bf1b.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ControlsContext", ()=>ControlsContext);
 parcelHelpers.export(exports, "ControlsProvider", ()=>ControlsProvider);
-parcelHelpers.export(exports, "useControls", ()=>useControls);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
-var _colors = require("../../utils/colors");
-var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+var _controlsReducer = require("./controlsReducer");
+var _s = $RefreshSig$();
 const ControlsContext = /*#__PURE__*/ (0, _react.createContext)(null);
 function ControlsProvider({ config, children }) {
     _s();
-    const [isSidebarOpen, setIsSidebarOpen] = (0, _react.useState)(false);
-    const [frame, setFrame] = (0, _react.useState)(0);
-    const [colorScheme, setColorScheme] = (0, _react.useState)((0, _colors.COLOR_SCHEMES).DEFAULT);
-    const [selectedObject, setSelectedObject] = (0, _react.useState)(null);
+    const [state, dispatch] = (0, _react.useReducer)((0, _controlsReducer.controlsReducer), (0, _controlsReducer.initialControlsState));
     const handleSelectObject = (0, _react.useCallback)((object)=>{
-        if (object) {
-            setSelectedObject(object);
-            setIsSidebarOpen(true);
-        } else setSelectedObject(null);
+        dispatch({
+            type: 'SELECT_OBJECT',
+            object
+        });
     }, []);
     const handleNextFrame = (0, _react.useCallback)(()=>{
-        setFrame((prev)=>prev === config.totalCount - 1 ? prev : prev + 1);
+        dispatch({
+            type: 'NEXT_FRAME',
+            totalCount: config.totalCount
+        });
     }, [
         config
     ]);
     const handlePreviousFrame = (0, _react.useCallback)(()=>{
-        setFrame((prev)=>prev === 0 ? 0 : prev - 1);
+        dispatch({
+            type: 'PREVIOUS_FRAME'
+        });
     }, []);
     const toggleSidebar = (0, _react.useCallback)(()=>{
-        setIsSidebarOpen((prev)=>!prev);
+        dispatch({
+            type: 'TOGGLE_SIDEBAR'
+        });
+    }, []);
+    const setColorScheme = (0, _react.useCallback)((colorScheme)=>{
+        dispatch({
+            type: 'SET_COLOR_SCHEME',
+            colorScheme
+        });
     }, []);
     (0, _react.useEffect)(()=>{
         const handleKeyDown = (e)=>{
@@ -25100,32 +25110,25 @@ function ControlsProvider({ config, children }) {
     ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlsContext.Provider, {
         value: {
-            isSidebarOpen,
+            isSidebarOpen: state.isSidebarOpen,
             toggleSidebar,
-            colorScheme,
+            colorScheme: state.colorScheme,
             setColorScheme,
-            selectedObject,
+            selectedObject: state.selectedObject,
             handleSelectObject,
-            frame,
+            frame: state.frame,
             handleNextFrame,
             handlePreviousFrame
         },
         children: children
     }, void 0, false, {
         fileName: "src/context/controls/ControlsContext.tsx",
-        lineNumber: 68,
+        lineNumber: 89,
         columnNumber: 5
     }, this);
 }
-_s(ControlsProvider, "MAPQXvOQ+uz98xNZqcl4ZGLaY+g=");
+_s(ControlsProvider, "DqdUobkKx3RMYaek7TSGmP2+TQ4=");
 _c = ControlsProvider;
-function useControls() {
-    _s1();
-    const ctx = (0, _react.useContext)(ControlsContext);
-    if (!ctx) throw new Error('useControls must be used within a ControlsProvider');
-    return ctx;
-}
-_s1(useControls, "/dMy7t63NXD4eYACoT93CePwGrg=");
 var _c;
 $RefreshReg$(_c, "ControlsProvider");
 
@@ -25134,73 +25137,7 @@ $RefreshReg$(_c, "ControlsProvider");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../utils/colors":"hk9sv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"hk9sv":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "COLOR_SCHEMES", ()=>COLOR_SCHEMES);
-parcelHelpers.export(exports, "COLOR_RANGES", ()=>COLOR_RANGES);
-parcelHelpers.export(exports, "getPointColor", ()=>getPointColor);
-const HEIGHT_RANGE = {
-    START: -2,
-    END: 12
-};
-var COLOR_SCHEMES = /*#__PURE__*/ function(COLOR_SCHEMES) {
-    COLOR_SCHEMES["HOT_COLD"] = "HOT_COLD";
-    COLOR_SCHEMES["HEIGHT"] = "HEIGHT";
-    COLOR_SCHEMES["DEFAULT"] = "DEFAULT";
-    return COLOR_SCHEMES;
-}({});
-const COLOR_RANGES = {
-    HOT_COLD: {
-        name: 'Hot Cold',
-        start: [
-            0,
-            0,
-            1
-        ],
-        end: [
-            1,
-            0,
-            0
-        ]
-    },
-    HEIGHT: {
-        name: 'Altitude',
-        start: [
-            0.5,
-            0.125,
-            0.125
-        ],
-        end: [
-            0.125,
-            0.5,
-            0.125
-        ]
-    },
-    DEFAULT: {
-        name: 'Default',
-        start: [
-            0,
-            0,
-            0
-        ],
-        end: [
-            1,
-            1,
-            1
-        ]
-    }
-};
-const getPointColor = (colorScheme, point)=>{
-    const normalizedRange = (point[2] - HEIGHT_RANGE.START) / (HEIGHT_RANGE.END - HEIGHT_RANGE.START);
-    return [
-        COLOR_RANGES[colorScheme].start[0] + (COLOR_RANGES[colorScheme].end[0] - COLOR_RANGES[colorScheme].start[0]) * normalizedRange,
-        COLOR_RANGES[colorScheme].start[1] + (COLOR_RANGES[colorScheme].end[1] - COLOR_RANGES[colorScheme].start[1]) * normalizedRange,
-        COLOR_RANGES[colorScheme].start[2] + (COLOR_RANGES[colorScheme].end[2] - COLOR_RANGES[colorScheme].start[2]) * normalizedRange
-    ];
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./controlsReducer":"5uvMx"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -27508,6 +27445,118 @@ function $da9882e673ac146b$var$ErrorOverlay() {
     return null;
 }
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"5uvMx":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initialControlsState", ()=>initialControlsState);
+parcelHelpers.export(exports, "controlsReducer", ()=>controlsReducer);
+var _colors = require("../../utils/colors");
+const initialControlsState = {
+    isSidebarOpen: false,
+    frame: 0,
+    colorScheme: (0, _colors.COLOR_SCHEMES).DEFAULT,
+    selectedObject: null
+};
+function controlsReducer(state, action) {
+    switch(action.type){
+        case 'TOGGLE_SIDEBAR':
+            return {
+                ...state,
+                isSidebarOpen: !state.isSidebarOpen
+            };
+        case 'NEXT_FRAME':
+            return {
+                ...state,
+                frame: state.frame === action.totalCount - 1 ? state.frame : state.frame + 1
+            };
+        case 'PREVIOUS_FRAME':
+            return {
+                ...state,
+                frame: state.frame === 0 ? 0 : state.frame - 1
+            };
+        case 'SET_COLOR_SCHEME':
+            return {
+                ...state,
+                colorScheme: action.colorScheme
+            };
+        case 'SELECT_OBJECT':
+            return action.object ? {
+                ...state,
+                selectedObject: action.object,
+                isSidebarOpen: true
+            } : {
+                ...state,
+                selectedObject: null
+            };
+    }
+}
+
+},{"../../utils/colors":"hk9sv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hk9sv":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "COLOR_SCHEMES", ()=>COLOR_SCHEMES);
+parcelHelpers.export(exports, "COLOR_RANGES", ()=>COLOR_RANGES);
+parcelHelpers.export(exports, "getPointColor", ()=>getPointColor);
+const HEIGHT_RANGE = {
+    START: -2,
+    END: 12
+};
+var COLOR_SCHEMES = /*#__PURE__*/ function(COLOR_SCHEMES) {
+    COLOR_SCHEMES["HOT_COLD"] = "HOT_COLD";
+    COLOR_SCHEMES["HEIGHT"] = "HEIGHT";
+    COLOR_SCHEMES["DEFAULT"] = "DEFAULT";
+    return COLOR_SCHEMES;
+}({});
+const COLOR_RANGES = {
+    HOT_COLD: {
+        name: 'Hot Cold',
+        start: [
+            0,
+            0,
+            1
+        ],
+        end: [
+            1,
+            0,
+            0
+        ]
+    },
+    HEIGHT: {
+        name: 'Altitude',
+        start: [
+            0.5,
+            0.125,
+            0.125
+        ],
+        end: [
+            0.125,
+            0.5,
+            0.125
+        ]
+    },
+    DEFAULT: {
+        name: 'Default',
+        start: [
+            0,
+            0,
+            0
+        ],
+        end: [
+            1,
+            1,
+            1
+        ]
+    }
+};
+const getPointColor = (colorScheme, point)=>{
+    const normalizedRange = (point[2] - HEIGHT_RANGE.START) / (HEIGHT_RANGE.END - HEIGHT_RANGE.START);
+    return [
+        COLOR_RANGES[colorScheme].start[0] + (COLOR_RANGES[colorScheme].end[0] - COLOR_RANGES[colorScheme].start[0]) * normalizedRange,
+        COLOR_RANGES[colorScheme].start[1] + (COLOR_RANGES[colorScheme].end[1] - COLOR_RANGES[colorScheme].start[1]) * normalizedRange,
+        COLOR_RANGES[colorScheme].start[2] + (COLOR_RANGES[colorScheme].end[2] - COLOR_RANGES[colorScheme].start[2]) * normalizedRange
+    ];
+};
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6n0o6":[function() {},{}],"1b8or":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$bc70 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$bc70.init();
@@ -27518,13 +27567,13 @@ $parcel$ReactRefreshHelpers$bc70.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "FramesContext", ()=>FramesContext);
 parcelHelpers.export(exports, "FramesProvider", ()=>FramesProvider);
-parcelHelpers.export(exports, "useFrames", ()=>useFrames);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _framesRepository = require("./FramesRepository");
 var _url = require("../../utils/url");
-var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+var _s = $RefreshSig$();
 const MAX_USAGE_MB_PARAM = 'maxUsageMb';
 const FramesContext = /*#__PURE__*/ (0, _react.createContext)(null);
 function FramesProvider({ config, children }) {
@@ -27547,7 +27596,8 @@ function FramesProvider({ config, children }) {
             return null;
         }
     }, [
-        framesRepository
+        framesRepository,
+        config.totalCount
     ]);
     const getMemoryUsage = (0, _react.useCallback)(()=>{
         return framesRepository.getMemoryUsage();
@@ -27569,13 +27619,6 @@ function FramesProvider({ config, children }) {
 }
 _s(FramesProvider, "H2fSiNl+RUXkG5zTDLziDJCghco=");
 _c = FramesProvider;
-function useFrames() {
-    _s1();
-    const ctx = (0, _react.useContext)(FramesContext);
-    if (!ctx) throw new Error('useFrames must be used within a FramesProvider');
-    return ctx;
-}
-_s1(useFrames, "/dMy7t63NXD4eYACoT93CePwGrg=");
 var _c;
 $RefreshReg$(_c, "FramesProvider");
 
@@ -27599,7 +27642,7 @@ class FramesRepository {
     }
     async getFrameMetadata(index) {
         const id = `frame_${index.toString().padStart(2, '0')}`;
-        if (await this.cache.hasFrame(id)) return this.cache.getFrame(id).then((metadata)=>metadata);
+        if (await this.cache.hasFrame(id)) return this.cache.getFrame(id);
         const data = await (0, _framesApi.fetchFrame)(this.apiUrl, id);
         const pointCount = data.points.length;
         const points = new Float32Array(pointCount * 3);
@@ -27708,9 +27751,9 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "appConfig", ()=>appConfig);
 const appConfig = {
     framesConfig: {
-        totalCount: 50,
-        apiUrl: 'https://static.scale.com/uploads/pandaset-challenge/',
-        maxUsageMb: 25
+        totalCount: parseInt("50"),
+        apiUrl: "https://static.scale.com/uploads/pandaset-challenge/",
+        maxUsageMb: parseInt("512")
     }
 };
 
@@ -27729,11 +27772,11 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _sidebar = require("./Sidebar/Sidebar");
 var _header = require("./Header/Header");
 var _mainPage = require("./MainPage/MainPage");
-var _controlsContext = require("../../context/controls/ControlsContext");
+var _useControls = require("../../context/controls/useControls");
 var _s = $RefreshSig$();
 function AppLayout() {
     _s();
-    const { isSidebarOpen, toggleSidebar } = (0, _controlsContext.useControls)();
+    const { isSidebarOpen, toggleSidebar } = (0, _useControls.useControls)();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _header.Header), {
@@ -27761,7 +27804,7 @@ function AppLayout() {
 }
 _s(AppLayout, "UzgoAINKKhf8AjPh44a8bKCZw28=", false, function() {
     return [
-        (0, _controlsContext.useControls)
+        (0, _useControls.useControls)
     ];
 });
 _c = AppLayout;
@@ -27773,7 +27816,7 @@ $RefreshReg$(_c, "AppLayout");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./Sidebar/Sidebar":"7aw5J","./Header/Header":"lPexc","./MainPage/MainPage":"dchK9","../../context/controls/ControlsContext":"1ZVE6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"7aw5J":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./Sidebar/Sidebar":"7aw5J","./Header/Header":"lPexc","./MainPage/MainPage":"dchK9","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/controls/useControls":"a2UFB"}],"7aw5J":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1f95 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1f95.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27944,24 +27987,24 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ColorScheme", ()=>ColorScheme);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _controlsContext = require("../../context/controls/ControlsContext");
+var _useControls = require("../../context/controls/useControls");
 var _colorSchemeSelect = require("./ColorSchemeSelect");
 var _s = $RefreshSig$();
 function ColorScheme() {
     _s();
-    const { colorScheme, setColorScheme } = (0, _controlsContext.useControls)();
+    const { colorScheme, setColorScheme } = (0, _useControls.useControls)();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colorSchemeSelect.ColorSchemeSelect), {
         colorScheme: colorScheme,
         setColorScheme: setColorScheme
     }, void 0, false, {
         fileName: "src/components/ColorScheme/ColorScheme.tsx",
-        lineNumber: 8,
+        lineNumber: 7,
         columnNumber: 5
     }, this);
 }
 _s(ColorScheme, "GhSRJjHCKeofjeAtau7hndYQhYM=", false, function() {
     return [
-        (0, _controlsContext.useControls)
+        (0, _useControls.useControls)
     ];
 });
 _c = ColorScheme;
@@ -27973,7 +28016,7 @@ $RefreshReg$(_c, "ColorScheme");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","../../context/controls/ControlsContext":"1ZVE6","./ColorSchemeSelect":"5YLYV","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5YLYV":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./ColorSchemeSelect":"5YLYV","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/controls/useControls":"a2UFB"}],"5YLYV":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$5911 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$5911.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28061,7 +28104,31 @@ module.exports["select"] = `WJAwLG_select`;
 module.exports["selectRow"] = `WJAwLG_selectRow`;
 module.exports["swatch"] = `WJAwLG_swatch`;
 
-},{}],"Agi3S":[function(require,module,exports,__globalThis) {
+},{}],"a2UFB":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$ebc8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$ebc8.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$ebc8.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useControls", ()=>useControls);
+var _react = require("react");
+var _controlsContext = require("./ControlsContext");
+function useControls() {
+    const ctx = (0, _react.useContext)((0, _controlsContext.ControlsContext));
+    if (!ctx) throw new Error('useControls must be used within a ControlsProvider');
+    return ctx;
+}
+
+  $parcel$ReactRefreshHelpers$ebc8.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"jMk1U","./ControlsContext":"1ZVE6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"Agi3S":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$9825 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$9825.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28073,13 +28140,13 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "InfoPanel", ()=>InfoPanel);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _controlsContext = require("../../context/controls/ControlsContext");
-var _objectInformation = require("./ObjectInformation");
+var _useControls = require("../../context/controls/useControls");
+var _infoPanelBox = require("./InfoPanelBox");
 var _s = $RefreshSig$();
 function InfoPanel() {
     _s();
-    const { selectedObject } = (0, _controlsContext.useControls)();
-    return selectedObject ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _objectInformation.ObjectInformation), {
+    const { selectedObject } = (0, _useControls.useControls)();
+    return selectedObject ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _infoPanelBox.InfoPanelBox), {
         cuboid: selectedObject
     }, void 0, false, {
         fileName: "src/components/InfoPanel/InfoPanel.tsx",
@@ -28089,7 +28156,7 @@ function InfoPanel() {
 }
 _s(InfoPanel, "wX5XqVG1+f89080UF8k83EpNGS0=", false, function() {
     return [
-        (0, _controlsContext.useControls)
+        (0, _useControls.useControls)
     ];
 });
 _c = InfoPanel;
@@ -28101,24 +28168,24 @@ $RefreshReg$(_c, "InfoPanel");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","../../context/controls/ControlsContext":"1ZVE6","./ObjectInformation":"8NwWz","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8NwWz":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$59ae = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$59ae.init();
+},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/controls/useControls":"a2UFB","./InfoPanelBox":"cbzNM"}],"cbzNM":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$8f8f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$8f8f.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
 var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$59ae.prelude(module);
+$parcel$ReactRefreshHelpers$8f8f.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ObjectInformation", ()=>ObjectInformation);
+parcelHelpers.export(exports, "InfoPanelBox", ()=>InfoPanelBox);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 const infoStyle = {
     margin: '4px 0',
     fontSize: 13,
     color: '#ccc'
 };
-function ObjectInformation({ cuboid }) {
+function InfoPanelBox({ cuboid }) {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -28128,7 +28195,7 @@ function ObjectInformation({ cuboid }) {
                     cuboid.label
                 ]
             }, void 0, true, {
-                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
+                fileName: "src/components/InfoPanel/InfoPanelBox.tsx",
                 lineNumber: 6,
                 columnNumber: 7
             }, this),
@@ -28139,7 +28206,7 @@ function ObjectInformation({ cuboid }) {
                     cuboid.camera_used
                 ]
             }, void 0, true, {
-                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
+                fileName: "src/components/InfoPanel/InfoPanelBox.tsx",
                 lineNumber: 7,
                 columnNumber: 7
             }, this),
@@ -28150,22 +28217,22 @@ function ObjectInformation({ cuboid }) {
                     cuboid.stationary ? 'Yes' : 'No'
                 ]
             }, void 0, true, {
-                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
+                fileName: "src/components/InfoPanel/InfoPanelBox.tsx",
                 lineNumber: 8,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
-        fileName: "src/components/InfoPanel/ObjectInformation.tsx",
+        fileName: "src/components/InfoPanel/InfoPanelBox.tsx",
         lineNumber: 5,
         columnNumber: 5
     }, this);
 }
-_c = ObjectInformation;
+_c = InfoPanelBox;
 var _c;
-$RefreshReg$(_c, "ObjectInformation");
+$RefreshReg$(_c, "InfoPanelBox");
 
-  $parcel$ReactRefreshHelpers$59ae.postlude(module);
+  $parcel$ReactRefreshHelpers$8f8f.postlude(module);
 } finally {
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
@@ -28182,25 +28249,25 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Timeline", ()=>Timeline);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _controlsContext = require("../../context/controls/ControlsContext");
+var _useControls = require("../../context/controls/useControls");
 var _timelineBar = require("./TimelineBar");
 var _s = $RefreshSig$();
 function Timeline() {
     _s();
-    const { frame, handleNextFrame, handlePreviousFrame } = (0, _controlsContext.useControls)();
+    const { frame, handleNextFrame, handlePreviousFrame } = (0, _useControls.useControls)();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _timelineBar.TimelineBar), {
         frame: frame,
         handleNextFrame: handleNextFrame,
         handlePreviousFrame: handlePreviousFrame
     }, void 0, false, {
         fileName: "src/components/Timeline/Timeline.tsx",
-        lineNumber: 7,
+        lineNumber: 6,
         columnNumber: 10
     }, this);
 }
 _s(Timeline, "dWzon5QMnzdvnh5TUwdvDfiaclw=", false, function() {
     return [
-        (0, _controlsContext.useControls)
+        (0, _useControls.useControls)
     ];
 });
 _c = Timeline;
@@ -28212,7 +28279,7 @@ $RefreshReg$(_c, "Timeline");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","../../context/controls/ControlsContext":"1ZVE6","./TimelineBar":"ktyAd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"ktyAd":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./TimelineBar":"ktyAd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/controls/useControls":"a2UFB"}],"ktyAd":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$8583 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$8583.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28299,11 +28366,11 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MemoryStatistics", ()=>MemoryStatistics);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _framesContext = require("../../context/frames/FramesContext");
+var _useSceneFrames = require("../../context/frames/useSceneFrames");
 var _s = $RefreshSig$();
 function MemoryStatistics() {
     _s();
-    const { getMemoryUsage } = (0, _framesContext.useFrames)();
+    const { getMemoryUsage } = (0, _useSceneFrames.useSceneFrames)();
     const { currentUsageMb, maxUsageMb } = getMemoryUsage();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
         style: {
@@ -28323,9 +28390,9 @@ function MemoryStatistics() {
         columnNumber: 5
     }, this);
 }
-_s(MemoryStatistics, "FfN6INdvzOFVFNbJX2VazGEn4+U=", false, function() {
+_s(MemoryStatistics, "UoA2HHqbjHWDEOIUeLW2iKQxGk4=", false, function() {
     return [
-        (0, _framesContext.useFrames)
+        (0, _useSceneFrames.useSceneFrames)
     ];
 });
 _c = MemoryStatistics;
@@ -28337,7 +28404,31 @@ $RefreshReg$(_c, "MemoryStatistics");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","../../context/frames/FramesContext":"1b8or","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lPexc":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/frames/useSceneFrames":"csL0N"}],"csL0N":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$04f4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$04f4.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$04f4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useSceneFrames", ()=>useSceneFrames);
+var _react = require("react");
+var _framesContext = require("./FramesContext");
+function useSceneFrames() {
+    const ctx = (0, _react.useContext)((0, _framesContext.FramesContext));
+    if (!ctx) throw new Error('useFrames must be used within a FramesProvider');
+    return ctx;
+}
+
+  $parcel$ReactRefreshHelpers$04f4.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"jMk1U","./FramesContext":"1b8or","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lPexc":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$074a = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$074a.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28409,19 +28500,27 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MainPage", ()=>MainPage);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _mainPageCss = require("./MainPage.css");
-var _canvasWrapper = require("../../../three/CanvasWrapper");
+var _sceneManager = require("../../SceneManager/SceneManager");
+var _keyboardHelp = require("./KeyboardHelp");
 function MainPage() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("main", {
         className: "main-page",
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _canvasWrapper.CanvasWrapper), {}, void 0, false, {
-            fileName: "src/components/layout/MainPage/MainPage.tsx",
-            lineNumber: 5,
-            columnNumber: 38
-        }, this)
-    }, void 0, false, {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sceneManager.SceneManager), {}, void 0, false, {
+                fileName: "src/components/layout/MainPage/MainPage.tsx",
+                lineNumber: 8,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _keyboardHelp.KeyboardHelp), {}, void 0, false, {
+                fileName: "src/components/layout/MainPage/MainPage.tsx",
+                lineNumber: 9,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/components/layout/MainPage/MainPage.tsx",
-        lineNumber: 5,
-        columnNumber: 10
+        lineNumber: 7,
+        columnNumber: 5
     }, this);
 }
 _c = MainPage;
@@ -28433,7 +28532,80 @@ $RefreshReg$(_c, "MainPage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./MainPage.css":"hdVlG","../../../three/CanvasWrapper":"ePeXY","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"hdVlG":[function() {},{}],"ePeXY":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./MainPage.css":"hdVlG","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../SceneManager/SceneManager":"hmPC4","./KeyboardHelp":"ao8oC"}],"hdVlG":[function() {},{}],"hmPC4":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$60d8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$60d8.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$60d8.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "SceneManager", ()=>SceneManager);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _useSceneFrames = require("../../context/frames/useSceneFrames");
+var _useControls = require("../../context/controls/useControls");
+var _canvasWrapper = require("../../three/CanvasWrapper");
+var _sceneLoader = require("../../three/SceneLoader");
+var _errorBoundary = require("../ErrorBoundary/ErrorBoundary");
+var _s = $RefreshSig$();
+function SceneManager() {
+    _s();
+    const { frame } = (0, _useControls.useControls)();
+    const { error, getFrameMetadata } = (0, _useSceneFrames.useSceneFrames)();
+    const [currentFrame, setCurrentFrame] = (0, _react.useState)(null);
+    (0, _react.useEffect)(()=>{
+        getFrameMetadata(frame).then(setCurrentFrame);
+    }, [
+        frame,
+        getFrameMetadata
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _errorBoundary.ErrorBoundary), {
+        FallbackComponent: ()=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: "Sorry, something went wrong"
+            }, void 0, false, {
+                fileName: "src/components/SceneManager/SceneManager.tsx",
+                lineNumber: 18,
+                columnNumber: 45
+            }, void 0),
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _canvasWrapper.CanvasWrapper), {
+            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sceneLoader.SceneLoader), {
+                currentFrame: currentFrame,
+                error: error
+            }, void 0, false, {
+                fileName: "src/components/SceneManager/SceneManager.tsx",
+                lineNumber: 20,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "src/components/SceneManager/SceneManager.tsx",
+            lineNumber: 19,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "src/components/SceneManager/SceneManager.tsx",
+        lineNumber: 18,
+        columnNumber: 5
+    }, this);
+}
+_s(SceneManager, "z/AWpxOlnb/0us1Lp9E6rLEeP/M=", false, function() {
+    return [
+        (0, _useControls.useControls),
+        (0, _useSceneFrames.useSceneFrames)
+    ];
+});
+_c = SceneManager;
+var _c;
+$RefreshReg$(_c, "SceneManager");
+
+  $parcel$ReactRefreshHelpers$60d8.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../context/frames/useSceneFrames":"csL0N","../../context/controls/useControls":"a2UFB","../../three/CanvasWrapper":"ePeXY","../../three/SceneLoader":"d3m6H","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../ErrorBoundary/ErrorBoundary":"jauMD"}],"ePeXY":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1948 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1948.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28447,50 +28619,32 @@ parcelHelpers.export(exports, "CanvasWrapper", ()=>CanvasWrapper);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _fiber = require("@react-three/fiber");
 var _drei = require("@react-three/drei");
-var _sceneManager = require("./SceneManager");
-function CanvasWrapper() {
-    //TODO: Add error boundary
-    //TODO: Extract camera settings to a separate component
+var _three = require("three");
+const cameraOptions = {
+    zoom: 15,
+    position: new (0, _three.Vector3)(150, 150, 30),
+    up: new (0, _three.Vector3)(0, 0, 1),
+    near: 0.1,
+    far: 1000
+};
+function CanvasWrapper({ children }) {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _fiber.Canvas), {
         orthographic: true,
-        camera: {
-            zoom: 5,
-            position: [
-                150,
-                150,
-                30
-            ],
-            up: [
-                0,
-                0,
-                1
-            ],
-            near: 0.1,
-            far: 1000
-        },
+        camera: cameraOptions,
         gl: {
-            antialias: false,
             powerPreference: 'high-performance'
         },
-        dpr: [
-            1,
-            1.5
-        ],
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _drei.OrbitControls), {}, void 0, false, {
                 fileName: "src/three/CanvasWrapper.tsx",
-                lineNumber: 22,
+                lineNumber: 24,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sceneManager.SceneManager), {}, void 0, false, {
-                fileName: "src/three/CanvasWrapper.tsx",
-                lineNumber: 23,
-                columnNumber: 7
-            }, this)
+            children
         ]
     }, void 0, true, {
         fileName: "src/three/CanvasWrapper.tsx",
-        lineNumber: 10,
+        lineNumber: 19,
         columnNumber: 5
     }, this);
 }
@@ -28503,7 +28657,7 @@ $RefreshReg$(_c, "CanvasWrapper");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@react-three/fiber":"lstt6","@react-three/drei":"jS5DK","./SceneManager":"3dNFL","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lstt6":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","@react-three/fiber":"lstt6","@react-three/drei":"jS5DK","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","three":"dsoTF"}],"lstt6":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ReactThreeFiber", ()=>(0, _events776716BdEsmJs.t));
@@ -79495,35 +79649,21 @@ class EventDispatcher {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"3dNFL":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$9932 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$9932.init();
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"d3m6H":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$23cb = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$23cb.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
 var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$9932.prelude(module);
+$parcel$ReactRefreshHelpers$23cb.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SceneManager", ()=>SceneManager);
+parcelHelpers.export(exports, "SceneLoader", ()=>SceneLoader);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _framesContext = require("../context/frames/FramesContext");
 var _drei = require("@react-three/drei");
 var _frameRenderer = require("./FrameRenderer");
-var _controlsContext = require("../context/controls/ControlsContext");
-var _s = $RefreshSig$();
-function SceneManager() {
-    _s();
-    const { frame } = (0, _controlsContext.useControls)();
-    const { error, getFrameMetadata } = (0, _framesContext.useFrames)();
-    const [currentFrame, setCurrentFrame] = (0, _react.useState)(null);
-    (0, _react.useEffect)(()=>{
-        getFrameMetadata(frame).then(setCurrentFrame);
-    }, [
-        frame,
-        getFrameMetadata
-    ]);
+function SceneLoader({ currentFrame, error }) {
     if (error) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _drei.Html), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             children: [
@@ -79531,42 +79671,35 @@ function SceneManager() {
                 error.message
             ]
         }, void 0, true, {
-            fileName: "src/three/SceneManager.tsx",
-            lineNumber: 16,
+            fileName: "src/three/SceneLoader.tsx",
+            lineNumber: 11,
             columnNumber: 27
         }, this)
     }, void 0, false, {
-        fileName: "src/three/SceneManager.tsx",
-        lineNumber: 16,
+        fileName: "src/three/SceneLoader.tsx",
+        lineNumber: 11,
         columnNumber: 21
     }, this);
     if (currentFrame === null) return null;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _frameRenderer.FrameRenderer), {
-        index: frame,
         points: currentFrame.points,
         cuboids: currentFrame.cuboids
     }, void 0, false, {
-        fileName: "src/three/SceneManager.tsx",
-        lineNumber: 20,
+        fileName: "src/three/SceneLoader.tsx",
+        lineNumber: 15,
         columnNumber: 5
     }, this);
 }
-_s(SceneManager, "V4lYq+vXqcLXFdnEmR4nzQL6dyg=", false, function() {
-    return [
-        (0, _controlsContext.useControls),
-        (0, _framesContext.useFrames)
-    ];
-});
-_c = SceneManager;
+_c = SceneLoader;
 var _c;
-$RefreshReg$(_c, "SceneManager");
+$RefreshReg$(_c, "SceneLoader");
 
-  $parcel$ReactRefreshHelpers$9932.postlude(module);
+  $parcel$ReactRefreshHelpers$23cb.postlude(module);
 } finally {
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../context/frames/FramesContext":"1b8or","@react-three/drei":"jS5DK","./FrameRenderer":"8PpxJ","../context/controls/ControlsContext":"1ZVE6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8PpxJ":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","@react-three/drei":"jS5DK","./FrameRenderer":"8PpxJ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8PpxJ":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$706a = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$706a.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -79581,12 +79714,12 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _colors = require("../utils/colors");
 var _pointsGroup = require("./PointsGroup");
-var _controlsContext = require("../context/controls/ControlsContext");
+var _useControls = require("../context/controls/useControls");
 var _cuboid = require("./Cuboid");
 var _s = $RefreshSig$();
-function FrameRenderer({ index, points, cuboids }) {
+function FrameRenderer({ points, cuboids }) {
     _s();
-    const { colorScheme, handleSelectObject } = (0, _controlsContext.useControls)();
+    const { colorScheme, handleSelectObject } = (0, _useControls.useControls)();
     const onPointerOver = (0, _react.useCallback)((cuboidId)=>{
         handleSelectObject(cuboids.find((cuboid)=>cuboid.uuid === cuboidId) ?? null);
     }, [
@@ -79630,7 +79763,7 @@ function FrameRenderer({ index, points, cuboids }) {
                 colors: colors
             }, void 0, false, {
                 fileName: "src/three/FrameRenderer.tsx",
-                lineNumber: 42,
+                lineNumber: 41,
                 columnNumber: 7
             }, this),
             cuboids.map((cuboid)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cuboid.Cuboid), {
@@ -79639,19 +79772,19 @@ function FrameRenderer({ index, points, cuboids }) {
                     onPointerOut: onPointerOut
                 }, cuboid.uuid, false, {
                     fileName: "src/three/FrameRenderer.tsx",
-                    lineNumber: 44,
+                    lineNumber: 43,
                     columnNumber: 9
                 }, this))
         ]
     }, void 0, true, {
         fileName: "src/three/FrameRenderer.tsx",
-        lineNumber: 41,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 }
 _s(FrameRenderer, "FTZuzYMml1N/rnKzsRe9wSRNlaA=", false, function() {
     return [
-        (0, _controlsContext.useControls)
+        (0, _useControls.useControls)
     ];
 });
 _c = FrameRenderer;
@@ -79663,7 +79796,7 @@ $RefreshReg$(_c, "FrameRenderer");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../utils/colors":"hk9sv","./PointsGroup":"fwm9L","../context/controls/ControlsContext":"1ZVE6","./Cuboid":"1xkmv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"fwm9L":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../utils/colors":"hk9sv","./PointsGroup":"fwm9L","../context/controls/useControls":"a2UFB","./Cuboid":"1xkmv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"fwm9L":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$eaf8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$eaf8.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -79837,6 +79970,285 @@ $RefreshReg$(_c, "Cuboid");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","three":"dsoTF","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["7KwkS","4dmnR"], "4dmnR", "parcelRequirecdee", {}, null, null, "http://localhost:1234")
+},{"react/jsx-dev-runtime":"dVPUn","three":"dsoTF","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"jauMD":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$02e2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$02e2.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$02e2.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ErrorBoundary", ()=>ErrorBoundary);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactErrorBoundary = require("react-error-boundary");
+function ErrorBoundary({ FallbackComponent, children, errorContext }) {
+    const logError = (error, info)=>{
+        const errorWithStack = getErrorWithComponentStack(error, info);
+        console.error(errorWithStack, errorContext ? {
+            context: errorContext
+        } : undefined);
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactErrorBoundary.ErrorBoundary), {
+        FallbackComponent: FallbackComponent,
+        onError: (error, info)=>logError(error, info),
+        children: children
+    }, void 0, false, {
+        fileName: "src/components/ErrorBoundary/ErrorBoundary.tsx",
+        lineNumber: 18,
+        columnNumber: 5
+    }, this);
+}
+_c = ErrorBoundary;
+function getErrorWithComponentStack(error, errorInfo) {
+    const newError = new Error(error.message);
+    newError.name = `React ErrorBoundary ${error.name}`;
+    newError.stack = errorInfo.componentStack ?? undefined;
+    return newError;
+}
+var _c;
+$RefreshReg$(_c, "ErrorBoundary");
+
+  $parcel$ReactRefreshHelpers$02e2.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-error-boundary":"kfEvn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kfEvn":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ErrorBoundary", ()=>m);
+parcelHelpers.export(exports, "ErrorBoundaryContext", ()=>h);
+parcelHelpers.export(exports, "getErrorMessage", ()=>S);
+parcelHelpers.export(exports, "useErrorBoundary", ()=>k);
+parcelHelpers.export(exports, "withErrorBoundary", ()=>w);
+var _react = require("react");
+"use client";
+const h = (0, _react.createContext)(null), c = {
+    didCatch: !1,
+    error: null
+};
+class m extends (0, _react.Component) {
+    constructor(e){
+        super(e), this.resetErrorBoundary = this.resetErrorBoundary.bind(this), this.state = c;
+    }
+    static getDerivedStateFromError(e) {
+        return {
+            didCatch: !0,
+            error: e
+        };
+    }
+    resetErrorBoundary(...e) {
+        const { error: t } = this.state;
+        t !== null && (this.props.onReset?.({
+            args: e,
+            reason: "imperative-api"
+        }), this.setState(c));
+    }
+    componentDidCatch(e, t) {
+        this.props.onError?.(e, t);
+    }
+    componentDidUpdate(e, t) {
+        const { didCatch: o } = this.state, { resetKeys: s } = this.props;
+        o && t.error !== null && C(e.resetKeys, s) && (this.props.onReset?.({
+            next: s,
+            prev: e.resetKeys,
+            reason: "keys"
+        }), this.setState(c));
+    }
+    render() {
+        const { children: e, fallbackRender: t, FallbackComponent: o, fallback: s } = this.props, { didCatch: n, error: a } = this.state;
+        let i = e;
+        if (n) {
+            const u = {
+                error: a,
+                resetErrorBoundary: this.resetErrorBoundary
+            };
+            if (typeof t == "function") i = t(u);
+            else if (o) i = (0, _react.createElement)(o, u);
+            else if (s !== void 0) i = s;
+            else throw a;
+        }
+        return (0, _react.createElement)(h.Provider, {
+            value: {
+                didCatch: n,
+                error: a,
+                resetErrorBoundary: this.resetErrorBoundary
+            }
+        }, i);
+    }
+}
+function C(r = [], e = []) {
+    return r.length !== e.length || r.some((t, o)=>!Object.is(t, e[o]));
+}
+function g(r) {
+    return r !== null && typeof r == "object" && "didCatch" in r && typeof r.didCatch == "boolean" && "error" in r && "resetErrorBoundary" in r && typeof r.resetErrorBoundary == "function";
+}
+function x(r) {
+    if (!g(r)) throw new Error("ErrorBoundaryContext not found");
+}
+function k() {
+    const r = (0, _react.useContext)(h);
+    x(r);
+    const { error: e, resetErrorBoundary: t } = r, [o, s] = (0, _react.useState)({
+        error: null,
+        hasError: !1
+    }), n = (0, _react.useMemo)(()=>({
+            error: e,
+            resetBoundary: ()=>{
+                t(), s({
+                    error: null,
+                    hasError: !1
+                });
+            },
+            showBoundary: (a)=>s({
+                    error: a,
+                    hasError: !0
+                })
+        }), [
+        e,
+        t
+    ]);
+    if (o.hasError) throw o.error;
+    return n;
+}
+function S(r) {
+    switch(typeof r){
+        case "object":
+            if (r !== null && "message" in r && typeof r.message == "string") return r.message;
+            break;
+        case "string":
+            return r;
+    }
+}
+function w(r, e) {
+    const t = (0, _react.forwardRef)((s, n)=>(0, _react.createElement)(m, e, (0, _react.createElement)(r, {
+            ...s,
+            ref: n
+        }))), o = r.displayName || r.name || "Unknown";
+    return t.displayName = `withErrorBoundary(${o})`, t;
+}
+
+},{"react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"ao8oC":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$39bb = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$39bb.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$39bb.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "KeyboardHelp", ()=>KeyboardHelp);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _keyboardHelpCss = require("./KeyboardHelp.css");
+var _s = $RefreshSig$();
+const shortcuts = [
+    {
+        keys: [
+            "\u2190",
+            "\u2192"
+        ],
+        description: 'Previous / Next frame'
+    },
+    {
+        keys: [
+            'Space'
+        ],
+        description: 'Toggle sidebar'
+    },
+    {
+        keys: [
+            'Left click + drag'
+        ],
+        description: 'Rotate camera'
+    },
+    {
+        keys: [
+            'Right click + drag'
+        ],
+        description: 'Pan camera'
+    },
+    {
+        keys: [
+            'Scroll wheel'
+        ],
+        description: 'Zoom in / out'
+    }
+];
+function KeyboardHelp() {
+    _s();
+    const [collapsed, setCollapsed] = (0, _react.useState)(false);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "keyboard-help",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "keyboard-help-toggle",
+                onClick: ()=>setCollapsed((c)=>!c),
+                children: collapsed ? "\u2328 Shortcuts" : "\u2328 Shortcuts"
+            }, void 0, false, {
+                fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                lineNumber: 17,
+                columnNumber: 7
+            }, this),
+            !collapsed && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+                className: "keyboard-help-list",
+                children: shortcuts.map((s)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "keyboard-help-keys",
+                                children: s.keys.map((k)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("kbd", {
+                                        children: k
+                                    }, k, false, {
+                                        fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                                        lineNumber: 29,
+                                        columnNumber: 19
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                                lineNumber: 27,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "keyboard-help-desc",
+                                children: s.description
+                            }, void 0, false, {
+                                fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                                lineNumber: 32,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, s.description, true, {
+                        fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                        lineNumber: 26,
+                        columnNumber: 13
+                    }, this))
+            }, void 0, false, {
+                fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+                lineNumber: 24,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/layout/MainPage/KeyboardHelp.tsx",
+        lineNumber: 16,
+        columnNumber: 5
+    }, this);
+}
+_s(KeyboardHelp, "IaHwFfvbaw8y79e5do0CzWS1eXc=");
+_c = KeyboardHelp;
+var _c;
+$RefreshReg$(_c, "KeyboardHelp");
+
+  $parcel$ReactRefreshHelpers$39bb.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./KeyboardHelp.css":"if9gO","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"if9gO":[function() {},{}]},["7KwkS","4dmnR"], "4dmnR", "parcelRequirecdee", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=ps-challenge-1.6efbc4f8.js.map
