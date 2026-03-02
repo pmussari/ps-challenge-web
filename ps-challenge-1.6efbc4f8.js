@@ -25034,7 +25034,173 @@ $RefreshReg$(_c, "App");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./App.css":"6n0o6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./context/frames/FramesContext":"1b8or","./config/appConfig":"4gXGT","./context/controls/ControlsContext":"1ZVE6","./components/layout/AppLayout":"dE2U9"}],"6n0o6":[function() {},{}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./context/controls/ControlsContext":"1ZVE6","./App.css":"6n0o6","./context/frames/FramesContext":"1b8or","./config/appConfig":"4gXGT","./components/layout/AppLayout":"dE2U9","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"1ZVE6":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$bf1b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$bf1b.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$bf1b.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ControlsProvider", ()=>ControlsProvider);
+parcelHelpers.export(exports, "useControls", ()=>useControls);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _colors = require("../../utils/colors");
+var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+const ControlsContext = /*#__PURE__*/ (0, _react.createContext)(null);
+function ControlsProvider({ config, children }) {
+    _s();
+    const [isSidebarOpen, setIsSidebarOpen] = (0, _react.useState)(false);
+    const [frame, setFrame] = (0, _react.useState)(0);
+    const [colorScheme, setColorScheme] = (0, _react.useState)((0, _colors.COLOR_SCHEMES).DEFAULT);
+    const [selectedObject, setSelectedObject] = (0, _react.useState)(null);
+    const handleSelectObject = (0, _react.useCallback)((object)=>{
+        if (object) {
+            setSelectedObject(object);
+            setIsSidebarOpen(true);
+        } else setSelectedObject(null);
+    }, []);
+    const handleNextFrame = (0, _react.useCallback)(()=>{
+        setFrame((prev)=>prev === config.totalCount - 1 ? prev : prev + 1);
+    }, [
+        config
+    ]);
+    const handlePreviousFrame = (0, _react.useCallback)(()=>{
+        setFrame((prev)=>prev === 0 ? 0 : prev - 1);
+    }, []);
+    const toggleSidebar = (0, _react.useCallback)(()=>{
+        setIsSidebarOpen((prev)=>!prev);
+    }, []);
+    (0, _react.useEffect)(()=>{
+        const handleKeyDown = (e)=>{
+            if (e.code === 'Space') {
+                // Avoid handling the event if the target is an input, textarea or content editable
+                const tag = e.target.tagName;
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+                e.preventDefault();
+                toggleSidebar();
+            } else if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                handlePreviousFrame();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                handleNextFrame();
+            }
+            return;
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return ()=>window.removeEventListener('keydown', handleKeyDown);
+    }, [
+        toggleSidebar,
+        handleNextFrame,
+        handlePreviousFrame
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlsContext.Provider, {
+        value: {
+            isSidebarOpen,
+            toggleSidebar,
+            colorScheme,
+            setColorScheme,
+            selectedObject,
+            handleSelectObject,
+            frame,
+            handleNextFrame,
+            handlePreviousFrame
+        },
+        children: children
+    }, void 0, false, {
+        fileName: "src/context/controls/ControlsContext.tsx",
+        lineNumber: 68,
+        columnNumber: 5
+    }, this);
+}
+_s(ControlsProvider, "MAPQXvOQ+uz98xNZqcl4ZGLaY+g=");
+_c = ControlsProvider;
+function useControls() {
+    _s1();
+    const ctx = (0, _react.useContext)(ControlsContext);
+    if (!ctx) throw new Error('useControls must be used within a ControlsProvider');
+    return ctx;
+}
+_s1(useControls, "/dMy7t63NXD4eYACoT93CePwGrg=");
+var _c;
+$RefreshReg$(_c, "ControlsProvider");
+
+  $parcel$ReactRefreshHelpers$bf1b.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../utils/colors":"hk9sv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"hk9sv":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "COLOR_SCHEMES", ()=>COLOR_SCHEMES);
+parcelHelpers.export(exports, "COLOR_RANGES", ()=>COLOR_RANGES);
+parcelHelpers.export(exports, "getPointColor", ()=>getPointColor);
+const HEIGHT_RANGE = {
+    START: -2,
+    END: 12
+};
+var COLOR_SCHEMES = /*#__PURE__*/ function(COLOR_SCHEMES) {
+    COLOR_SCHEMES["HOT_COLD"] = "HOT_COLD";
+    COLOR_SCHEMES["HEIGHT"] = "HEIGHT";
+    COLOR_SCHEMES["DEFAULT"] = "DEFAULT";
+    return COLOR_SCHEMES;
+}({});
+const COLOR_RANGES = {
+    HOT_COLD: {
+        name: 'Hot Cold',
+        start: [
+            0,
+            0,
+            1
+        ],
+        end: [
+            1,
+            0,
+            0
+        ]
+    },
+    HEIGHT: {
+        name: 'Altitude',
+        start: [
+            0.5,
+            0.125,
+            0.125
+        ],
+        end: [
+            0.125,
+            0.5,
+            0.125
+        ]
+    },
+    DEFAULT: {
+        name: 'Default',
+        start: [
+            0,
+            0,
+            0
+        ],
+        end: [
+            1,
+            1,
+            1
+        ]
+    }
+};
+const getPointColor = (colorScheme, point)=>{
+    const normalizedRange = (point[2] - HEIGHT_RANGE.START) / (HEIGHT_RANGE.END - HEIGHT_RANGE.START);
+    return [
+        COLOR_RANGES[colorScheme].start[0] + (COLOR_RANGES[colorScheme].end[0] - COLOR_RANGES[colorScheme].start[0]) * normalizedRange,
+        COLOR_RANGES[colorScheme].start[1] + (COLOR_RANGES[colorScheme].end[1] - COLOR_RANGES[colorScheme].start[1]) * normalizedRange,
+        COLOR_RANGES[colorScheme].start[2] + (COLOR_RANGES[colorScheme].end[2] - COLOR_RANGES[colorScheme].start[2]) * normalizedRange
+    ];
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -27342,7 +27508,7 @@ function $da9882e673ac146b$var$ErrorOverlay() {
     return null;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1b8or":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6n0o6":[function() {},{}],"1b8or":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$bc70 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$bc70.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27418,7 +27584,7 @@ $RefreshReg$(_c, "FramesProvider");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./FramesRepository":"iAJuV","../../utils/url":"dr76v"}],"iAJuV":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./FramesRepository":"iAJuV","../../utils/url":"dr76v","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"iAJuV":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FramesRepository", ()=>FramesRepository);
@@ -27548,172 +27714,6 @@ const appConfig = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1ZVE6":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$bf1b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$bf1b.init();
-var prevRefreshReg = globalThis.$RefreshReg$;
-var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$bf1b.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ControlsProvider", ()=>ControlsProvider);
-parcelHelpers.export(exports, "useControls", ()=>useControls);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _colors = require("../../utils/colors");
-var _s = $RefreshSig$(), _s1 = $RefreshSig$();
-const ControlsContext = /*#__PURE__*/ (0, _react.createContext)(null);
-function ControlsProvider({ config, children }) {
-    _s();
-    const [isSidebarOpen, setIsSidebarOpen] = (0, _react.useState)(false);
-    const [frame, setFrame] = (0, _react.useState)(0);
-    const [colorScheme, setColorScheme] = (0, _react.useState)((0, _colors.COLOR_SCHEMES).DEFAULT);
-    const [selectedObject, setSelectedObject] = (0, _react.useState)(null);
-    const handleSelectObject = (0, _react.useCallback)((object)=>{
-        if (object) {
-            setSelectedObject(object);
-            setIsSidebarOpen(true);
-        } else setSelectedObject(null);
-    }, []);
-    const handleNextFrame = (0, _react.useCallback)(()=>{
-        setFrame((prev)=>prev === config.totalCount - 1 ? prev : prev + 1);
-    }, [
-        config
-    ]);
-    const handlePreviousFrame = (0, _react.useCallback)(()=>{
-        setFrame((prev)=>prev === 0 ? 0 : prev - 1);
-    }, []);
-    const toggleSidebar = (0, _react.useCallback)(()=>{
-        setIsSidebarOpen((prev)=>!prev);
-    }, []);
-    (0, _react.useEffect)(()=>{
-        const handleKeyDown = (e)=>{
-            if (e.code === 'Space') {
-                // Avoid handling the event if the target is an input, textarea or content editable
-                const tag = e.target.tagName;
-                if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
-                e.preventDefault();
-                toggleSidebar();
-            } else if (e.code === 'ArrowLeft') {
-                e.preventDefault();
-                handlePreviousFrame();
-            } else if (e.code === 'ArrowRight') {
-                e.preventDefault();
-                handleNextFrame();
-            }
-            return;
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return ()=>window.removeEventListener('keydown', handleKeyDown);
-    }, [
-        toggleSidebar,
-        handleNextFrame,
-        handlePreviousFrame
-    ]);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlsContext.Provider, {
-        value: {
-            isSidebarOpen,
-            toggleSidebar,
-            colorScheme,
-            setColorScheme,
-            selectedObject,
-            handleSelectObject,
-            frame,
-            handleNextFrame,
-            handlePreviousFrame
-        },
-        children: children
-    }, void 0, false, {
-        fileName: "src/context/controls/ControlsContext.tsx",
-        lineNumber: 68,
-        columnNumber: 5
-    }, this);
-}
-_s(ControlsProvider, "MAPQXvOQ+uz98xNZqcl4ZGLaY+g=");
-_c = ControlsProvider;
-function useControls() {
-    _s1();
-    const ctx = (0, _react.useContext)(ControlsContext);
-    if (!ctx) throw new Error('useControls must be used within a ControlsProvider');
-    return ctx;
-}
-_s1(useControls, "/dMy7t63NXD4eYACoT93CePwGrg=");
-var _c;
-$RefreshReg$(_c, "ControlsProvider");
-
-  $parcel$ReactRefreshHelpers$bf1b.postlude(module);
-} finally {
-  globalThis.$RefreshReg$ = prevRefreshReg;
-  globalThis.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../utils/colors":"hk9sv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"hk9sv":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "COLOR_SCHEMES", ()=>COLOR_SCHEMES);
-parcelHelpers.export(exports, "COLOR_RANGES", ()=>COLOR_RANGES);
-parcelHelpers.export(exports, "getPointColor", ()=>getPointColor);
-const HEIGHT_RANGE = {
-    START: -2,
-    END: 12
-};
-var COLOR_SCHEMES = /*#__PURE__*/ function(COLOR_SCHEMES) {
-    COLOR_SCHEMES["HOT_COLD"] = "HOT_COLD";
-    COLOR_SCHEMES["HEIGHT"] = "HEIGHT";
-    COLOR_SCHEMES["DEFAULT"] = "DEFAULT";
-    return COLOR_SCHEMES;
-}({});
-const COLOR_RANGES = {
-    HOT_COLD: {
-        name: 'Hot Cold',
-        start: [
-            0,
-            0,
-            1
-        ],
-        end: [
-            1,
-            0,
-            0
-        ]
-    },
-    HEIGHT: {
-        name: 'Altitude',
-        start: [
-            0.5,
-            0.125,
-            0.125
-        ],
-        end: [
-            0.125,
-            0.5,
-            0.125
-        ]
-    },
-    DEFAULT: {
-        name: 'Default',
-        start: [
-            0,
-            0,
-            0
-        ],
-        end: [
-            1,
-            1,
-            1
-        ]
-    }
-};
-const getPointColor = (colorScheme, point)=>{
-    const normalizedRange = (point[2] - HEIGHT_RANGE.START) / (HEIGHT_RANGE.END - HEIGHT_RANGE.START);
-    return [
-        COLOR_RANGES[colorScheme].start[0] + (COLOR_RANGES[colorScheme].end[0] - COLOR_RANGES[colorScheme].start[0]) * normalizedRange,
-        COLOR_RANGES[colorScheme].start[1] + (COLOR_RANGES[colorScheme].end[1] - COLOR_RANGES[colorScheme].start[1]) * normalizedRange,
-        COLOR_RANGES[colorScheme].start[2] + (COLOR_RANGES[colorScheme].end[2] - COLOR_RANGES[colorScheme].start[2]) * normalizedRange
-    ];
-};
-
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"dE2U9":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$064b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$064b.init();
@@ -27773,7 +27773,7 @@ $RefreshReg$(_c, "AppLayout");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../context/controls/ControlsContext":"1ZVE6","./Sidebar/Sidebar":"7aw5J","./Header/Header":"lPexc","./MainPage/MainPage":"dchK9"}],"7aw5J":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./Sidebar/Sidebar":"7aw5J","./Header/Header":"lPexc","./MainPage/MainPage":"dchK9","../../context/controls/ControlsContext":"1ZVE6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"7aw5J":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1f95 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1f95.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27798,6 +27798,7 @@ function Sidebar({ isSidebarOpen }) {
         className: (0, _clsxDefault.default)(_sidebarModuleCss.sidebar, isSidebarOpen && _sidebarModuleCss.open),
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebarSection.SidebarSection), {
+                title: "Color Scheme",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colorScheme.ColorScheme), {}, void 0, false, {
                     fileName: "src/components/layout/Sidebar/Sidebar.tsx",
                     lineNumber: 17,
@@ -27809,6 +27810,7 @@ function Sidebar({ isSidebarOpen }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebarSection.SidebarSection), {
+                title: "Timeline",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _timeline.Timeline), {}, void 0, false, {
                     fileName: "src/components/layout/Sidebar/Sidebar.tsx",
                     lineNumber: 20,
@@ -27820,6 +27822,7 @@ function Sidebar({ isSidebarOpen }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebarSection.SidebarSection), {
+                title: "Memory",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _memoryStatistics.MemoryStatistics), {}, void 0, false, {
                     fileName: "src/components/layout/Sidebar/Sidebar.tsx",
                     lineNumber: 23,
@@ -27831,6 +27834,7 @@ function Sidebar({ isSidebarOpen }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _sidebarSection.SidebarSection), {
+                title: "Object Info",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _infoPanel.InfoPanel), {}, void 0, false, {
                     fileName: "src/components/layout/Sidebar/Sidebar.tsx",
                     lineNumber: 26,
@@ -27857,12 +27861,7 @@ $RefreshReg$(_c, "Sidebar");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./Sidebar.module.css":"cYrHY","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","clsx":"dOSJC","./SidebarSection":"1C2Sc","../../ColorScheme/ColorScheme":"c9CY5","../../InfoPanel/InfoPanel":"Agi3S","../../Timeline/Timeline":"bgBT2","../../MemoryStatistics/MemoryStatistics":"gomAN"}],"cYrHY":[function(require,module,exports,__globalThis) {
-module.exports["open"] = `xq1epW_open`;
-module.exports["section"] = `xq1epW_section`;
-module.exports["sidebar"] = `xq1epW_sidebar`;
-
-},{}],"dOSJC":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","clsx":"dOSJC","./Sidebar.module.css":"cYrHY","./SidebarSection":"1C2Sc","../../ColorScheme/ColorScheme":"c9CY5","../../InfoPanel/InfoPanel":"Agi3S","../../Timeline/Timeline":"bgBT2","../../MemoryStatistics/MemoryStatistics":"gomAN","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dOSJC":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "clsx", ()=>clsx);
@@ -27883,7 +27882,13 @@ function clsx() {
 }
 exports.default = clsx;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1C2Sc":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"cYrHY":[function(require,module,exports,__globalThis) {
+module.exports["open"] = `xq1epW_open`;
+module.exports["section"] = `xq1epW_section`;
+module.exports["sectionTitle"] = `xq1epW_sectionTitle`;
+module.exports["sidebar"] = `xq1epW_sidebar`;
+
+},{}],"1C2Sc":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$aa4e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$aa4e.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27898,14 +27903,23 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _clsx = require("clsx");
 var _clsxDefault = parcelHelpers.interopDefault(_clsx);
 var _sidebarModuleCss = require("./Sidebar.module.css");
-var _sidebarModuleCssDefault = parcelHelpers.interopDefault(_sidebarModuleCss);
-function SidebarSection({ children, className }) {
+function SidebarSection({ title, children, className }) {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _clsxDefault.default)((0, _sidebarModuleCssDefault.default).section, className),
-        children: children
-    }, void 0, false, {
+        className: (0, _clsxDefault.default)(_sidebarModuleCss.section, className),
+        children: [
+            title && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                className: _sidebarModuleCss.sectionTitle,
+                children: title
+            }, void 0, false, {
+                fileName: "src/components/layout/Sidebar/SidebarSection.tsx",
+                lineNumber: 13,
+                columnNumber: 17
+            }, this),
+            children
+        ]
+    }, void 0, true, {
         fileName: "src/components/layout/Sidebar/SidebarSection.tsx",
-        lineNumber: 11,
+        lineNumber: 12,
         columnNumber: 5
     }, this);
 }
@@ -27979,19 +27993,13 @@ function ColorSchemeSelect({ colorScheme, setColorScheme }) {
     const gradient = `linear-gradient(to right, ${toCSS(start)}, ${toCSS(end)})`;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                children: "Color Scheme"
-            }, void 0, false, {
-                fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                lineNumber: 19,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                 htmlFor: "colorScheme",
+                className: _colorSchemeModuleCss.label,
                 children: "Select a color scheme:"
             }, void 0, false, {
                 fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                lineNumber: 20,
+                lineNumber: 19,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28007,12 +28015,12 @@ function ColorSchemeSelect({ colorScheme, setColorScheme }) {
                                 children: (0, _colors.COLOR_RANGES)[scheme].name
                             }, scheme, false, {
                                 fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                                lineNumber: 29,
+                                lineNumber: 28,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                        lineNumber: 22,
+                        lineNumber: 21,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28022,13 +28030,13 @@ function ColorSchemeSelect({ colorScheme, setColorScheme }) {
                         }
                     }, void 0, false, {
                         fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                        lineNumber: 34,
+                        lineNumber: 33,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/ColorScheme/ColorSchemeSelect.tsx",
-                lineNumber: 21,
+                lineNumber: 20,
                 columnNumber: 7
             }, this)
         ]
@@ -28047,7 +28055,9 @@ $RefreshReg$(_c, "ColorSchemeSelect");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./ColorScheme.module.css":"gZiej","../../utils/colors":"hk9sv"}],"gZiej":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","../../utils/colors":"hk9sv","./ColorScheme.module.css":"gZiej","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"gZiej":[function(require,module,exports,__globalThis) {
+module.exports["label"] = `WJAwLG_label`;
+module.exports["select"] = `WJAwLG_select`;
 module.exports["selectRow"] = `WJAwLG_selectRow`;
 module.exports["swatch"] = `WJAwLG_swatch`;
 
@@ -28103,30 +28113,19 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ObjectInformation", ()=>ObjectInformation);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+const infoStyle = {
+    margin: '4px 0',
+    fontSize: 13,
+    color: '#ccc'
+};
 function ObjectInformation({ cuboid }) {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                children: "Object Information"
-            }, void 0, false, {
-                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
-                lineNumber: 4,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                style: infoStyle,
                 children: [
                     "Label: ",
                     cuboid.label
-                ]
-            }, void 0, true, {
-                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
-                lineNumber: 5,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                children: [
-                    "Camera: ",
-                    cuboid.camera_used
                 ]
             }, void 0, true, {
                 fileName: "src/components/InfoPanel/ObjectInformation.tsx",
@@ -28134,19 +28133,31 @@ function ObjectInformation({ cuboid }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                style: infoStyle,
+                children: [
+                    "Camera: ",
+                    cuboid.camera_used
+                ]
+            }, void 0, true, {
+                fileName: "src/components/InfoPanel/ObjectInformation.tsx",
+                lineNumber: 7,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                style: infoStyle,
                 children: [
                     "Stationary: ",
                     cuboid.stationary ? 'Yes' : 'No'
                 ]
             }, void 0, true, {
                 fileName: "src/components/InfoPanel/ObjectInformation.tsx",
-                lineNumber: 7,
+                lineNumber: 8,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/InfoPanel/ObjectInformation.tsx",
-        lineNumber: 3,
+        lineNumber: 5,
         columnNumber: 5
     }, this);
 }
@@ -28213,54 +28224,52 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "TimelineBar", ()=>TimelineBar);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _timelineBarModuleCss = require("./TimelineBar.module.css");
 function TimelineBar({ frame, handleNextFrame, handlePreviousFrame }) {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                children: "Timeline"
-            }, void 0, false, {
-                fileName: "src/components/Timeline/TimelineBar.tsx",
-                lineNumber: 10,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                className: _timelineBarModuleCss.frameInfo,
                 children: [
                     "Current frame: ",
                     frame
                 ]
             }, void 0, true, {
                 fileName: "src/components/Timeline/TimelineBar.tsx",
-                lineNumber: 11,
+                lineNumber: 12,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: _timelineBarModuleCss.controls,
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: _timelineBarModuleCss.button,
                         onClick: handlePreviousFrame,
                         children: "Prev"
                     }, void 0, false, {
                         fileName: "src/components/Timeline/TimelineBar.tsx",
-                        lineNumber: 13,
+                        lineNumber: 14,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: _timelineBarModuleCss.button,
                         onClick: handleNextFrame,
                         children: "Next"
                     }, void 0, false, {
                         fileName: "src/components/Timeline/TimelineBar.tsx",
-                        lineNumber: 14,
+                        lineNumber: 15,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Timeline/TimelineBar.tsx",
-                lineNumber: 12,
+                lineNumber: 13,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/Timeline/TimelineBar.tsx",
-        lineNumber: 9,
+        lineNumber: 11,
         columnNumber: 5
     }, this);
 }
@@ -28273,7 +28282,12 @@ $RefreshReg$(_c, "TimelineBar");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"gomAN":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./TimelineBar.module.css":"jvZNc"}],"jvZNc":[function(require,module,exports,__globalThis) {
+module.exports["button"] = `hI-8mG_button`;
+module.exports["controls"] = `hI-8mG_controls`;
+module.exports["frameInfo"] = `hI-8mG_frameInfo`;
+
+},{}],"gomAN":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$93ef = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$93ef.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -28291,9 +28305,13 @@ function MemoryStatistics() {
     _s();
     const { getMemoryUsage } = (0, _framesContext.useFrames)();
     const { currentUsageMb, maxUsageMb } = getMemoryUsage();
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+        style: {
+            margin: 0,
+            fontSize: 13,
+            color: '#ccc'
+        },
         children: [
-            "Memory Usage: ",
             currentUsageMb.toFixed(2),
             " MB / ",
             maxUsageMb.toFixed(2),
@@ -28301,8 +28319,8 @@ function MemoryStatistics() {
         ]
     }, void 0, true, {
         fileName: "src/components/MemoryStatistics/MemoryStatistics.tsx",
-        lineNumber: 6,
-        columnNumber: 10
+        lineNumber: 7,
+        columnNumber: 5
     }, this);
 }
 _s(MemoryStatistics, "FfN6INdvzOFVFNbJX2VazGEn4+U=", false, function() {
@@ -28415,7 +28433,7 @@ $RefreshReg$(_c, "MainPage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./MainPage.css":"hdVlG","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../../three/CanvasWrapper":"ePeXY"}],"hdVlG":[function() {},{}],"ePeXY":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./MainPage.css":"hdVlG","../../../three/CanvasWrapper":"ePeXY","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"hdVlG":[function() {},{}],"ePeXY":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1948 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1948.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -79548,7 +79566,7 @@ $RefreshReg$(_c, "SceneManager");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","../context/frames/FramesContext":"1b8or","@react-three/drei":"jS5DK","./FrameRenderer":"8PpxJ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../context/controls/ControlsContext":"1ZVE6","react":"jMk1U"}],"8PpxJ":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../context/frames/FramesContext":"1b8or","@react-three/drei":"jS5DK","./FrameRenderer":"8PpxJ","../context/controls/ControlsContext":"1ZVE6","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8PpxJ":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$706a = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$706a.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -79645,7 +79663,7 @@ $RefreshReg$(_c, "FrameRenderer");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./PointsGroup":"fwm9L","../context/controls/ControlsContext":"1ZVE6","./Cuboid":"1xkmv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../utils/colors":"hk9sv"}],"fwm9L":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../utils/colors":"hk9sv","./PointsGroup":"fwm9L","../context/controls/ControlsContext":"1ZVE6","./Cuboid":"1xkmv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"fwm9L":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$eaf8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$eaf8.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
