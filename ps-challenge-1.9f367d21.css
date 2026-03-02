@@ -52,29 +52,18 @@ html {
   }
 }
 
-.WJAwLG_select {
-  appearance: none;
-  color: #fff;
-  cursor: pointer;
-  background-color: #3a3a3a;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-  border: 1px solid #555;
+.WJAwLG_selectRow {
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.WJAwLG_swatch {
+  border: 1px solid #fff3;
   border-radius: 4px;
-  width: 100%;
-  padding: 8px 32px 8px 12px;
-  font-family: system-ui, sans-serif;
-  font-size: 14px;
-}
-
-.WJAwLG_select:hover {
-  border-color: #777;
-}
-
-.WJAwLG_select:focus {
-  border-color: #999;
-  outline: none;
+  flex-shrink: 0;
+  width: 48px;
+  height: 24px;
 }
 
 .header {
